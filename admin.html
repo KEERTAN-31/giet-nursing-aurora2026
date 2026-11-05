@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizers Dashboard • School of Nursing GIET University</title>
+  <meta name="description" content="View registered students, food preferences (Veg/Non-Veg), and export to Excel/CSV for School of Nursing GIET University.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .admin-container {
+      max-width: 980px;
+      margin: 80px auto 40px;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    .admin-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-teal);
+      border-radius: var(--radius-lg);
+      padding: 28px 30px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+      margin-bottom: 24px;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-bottom: 1px solid rgba(20, 184, 166, 0.25);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+
+    .admin-title-wrap h1 {
+      font-family: var(--font-heading);
+      font-size: 1.55rem;
+      font-weight: 800;
+      color: var(--nurse-light);
+    }
+
+    .admin-title-wrap p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Analytics Counter Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: rgba(4, 19, 31, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-card.total {
+      border-color: rgba(6, 182, 212, 0.45);
+    }
+    .stat-card.veg {
+      border-color: rgba(16, 185, 129, 0.45);
+    }
+    .stat-card.nonveg {
+      border-color: rgba(244, 63, 94, 0.45);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .stat-card.total .stat-icon {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--nurse-cyan);
+    }
+    .stat-card.veg .stat-icon {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--veg-green);
+    }
+    .stat-card.nonveg .stat-icon {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--nonveg-red);
+    }
+
+    .stat-num {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1.1;
+      color: #ffffff;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* Controls: Search & Filters */
+    .table-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: rgba(4, 19, 31, 0.85);
+      border: 1px solid rgba(20, 184, 166, 0.3);
+      color: #ffffff;
+      font-size: 0.9rem;
+      min-width: 260px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--nurse-cyan);
+    }
+
+    .btn-action-small {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+    }
+
+    /* Guest Table */
+    .table-responsive {
+      overflow-x: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .guest-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+
+    .guest-table th {
+      background: rgba(8, 30, 48, 0.95);
+      color: var(--nurse-light);
+      padding: 14px 18px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid rgba(20, 184, 166, 0.25);
+    }
+
+    .guest-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+    }
+
+    .guest-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .meal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .meal-badge.veg {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--veg-green);
+      border: 1px solid var(--veg-green);
+    }
+
+    .meal-badge.nonveg {
+      background: rgba(244, 63, 94, 0.15);
+      color: var(--nonveg-red);
+      border: 1px solid var(--nonveg-red);
+    }
+
+    .empty-state {
+      padding: 45px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .app-header, .table-controls, .app-footer, .header-actions, .ecg-line-bg, #ambient-canvas {
+        display: none !important;
+      }
+      .admin-container {
+        margin: 0 !important;
+        max-width: 100% !important;
+      }
+      .admin-card {
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .guest-table th {
+        background: #f1f5f9 !important;
+        color: #000 !important;
+      }
+      .guest-table td {
+        color: #000 !important;
+        border-bottom: 1px solid #ddd !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ambient Sparkles -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Glowing ECG Pulse Background -->
+  <div class="ecg-line-bg" aria-hidden="true"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <a href="index.html" class="brand-badge">
+      <div class="brand-crest">👩‍⚕️</div>
+      <div class="brand-text">
+        <span class="brand-title">School of Nursing</span>
+        <span class="brand-sub">GIET University</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <a href="index.html" class="nav-pill">
+        <span>✨</span> <span>Student Portal</span>
+      </a>
+      <a href="qr-poster.html" class="nav-pill">
+        <span>📱</span> <span>Wall QR Poster</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <section class="admin-card">
+      <div class="admin-header">
+        <div class="admin-title-wrap">
+          <h1>📊 Organizers Guest & Catering Dashboard</h1>
+          <p>Real-time records of registered nursing juniors and meal choices</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button id="btn-export-csv" class="btn-primary btn-action-small" type="button">
+            <span>📥 Export to Excel / CSV</span>
+          </button>
+          <button id="btn-print-table" class="btn-secondary btn-action-small" type="button">
+            <span>🖨️ Print Check-in List</span>
+          </button>
+          <button id="btn-clear-data" class="btn-secondary btn-action-small" type="button" style="color: #fb7185; border-color: rgba(251, 113, 133, 0.3);">
+            <span>🗑️ Reset</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card total">
+          <div class="stat-icon">🎓</div>
+          <div>
+            <div class="stat-num" id="stat-total">0</div>
+            <div class="stat-label">Total Registered</div>
+          </div>
+        </div>
+
+        <div class="stat-card veg">
+          <div class="stat-icon">🥗</div>
+          <div>
+            <div class="stat-num" id="stat-veg">0</div>
+            <div class="stat-label">Veg Meals</div>
+          </div>
+        </div>
+
+        <div class="stat-card nonveg">
+          <div class="stat-icon">🍗</div>
+          <div>
+            <div class="stat-num" id="stat-nonveg">0</div>
+            <div class="stat-label">Non-Veg Meals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="table-controls">
+        <input 
+          type="text" 
+          id="search-input" 
+          class="search-input" 
+          placeholder="🔍 Search junior by Name or Roll No..."
+        >
+        <div style="font-size: 0.85rem; color: var(--text-muted);" id="showing-count">
+          Showing 0 guests
+        </div>
+      </div>
+
+      <!-- Table View -->
+      <div class="table-responsive">
+        <table class="guest-table" id="guest-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th>Junior Name</th>
+              <th>Roll Number</th>
+              <th>Meal Preference</th>
+              <th>Registration Time</th>
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Dynamic rows will render here -->
+          </tbody>
+        </table>
+
+        <div id="empty-state" class="empty-state">
+          <div class="empty-state-icon">🩺</div>
+          <h3>No students registered yet!</h3>
+          <p style="margin-top: 6px; font-size: 0.85rem;">
+            When juniors scan the wall QR code and complete registration, their entries will show up here automatically.
+          </p>
+          <a href="index.html" class="nav-pill" style="margin-top: 16px; display: inline-flex;">
+            ➕ Try a test registration
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Organizing Committee • School of Nursing • GIET University Gunupur</p>
+  </footer>
+
+  <script>
+    (function () {
+      const storageKey = 'aurora_freshers_guests';
+      let guests = [];
+
+      function loadGuests() {
+        try {
+          guests = JSON.parse(localStorage.getItem(storageKey) || '[]');
+        } catch (e) {
+          guests = [];
+        }
+      }
+
+      function updateStats() {
+        const total = guests.length;
+        const vegCount = guests.filter(g => g.meal === 'Veg').length;
+        const nonVegCount = guests.filter(g => g.meal === 'Non-Veg').length;
+
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-veg').textContent = vegCount;
+        document.getElementById('stat-nonveg').textContent = nonVegCount;
+      }
+
+      function renderTable(filterTerm = '') {
+        const tbody = document.getElementById('table-body');
+        const emptyState = document.getElementById('empty-state');
+        const showingCount = document.getElementById('showing-count');
+        tbody.innerHTML = '';
+
+        const term = filterTerm.trim().toLowerCase();
+        const filtered = guests.filter(g => {
+          return (g.name || '').toLowerCase().includes(term) || (g.rollNo || '').toLowerCase().includes(term);
+        });
+
+        showingCount.textContent = `Showing ${filtered.length} of ${guests.length} juniors`;
+
+        if (filtered.length === 0) {
+          emptyState.style.display = 'block';
+          return;
+        }
+
+        emptyState.style.display = 'none';
+
+        filtered.forEach((guest, idx) => {
+          const tr = document.createElement('tr');
+          const isVeg = guest.meal === 'Veg';
+          tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td><strong>${escapeHtml(guest.name)}</strong></td>
+            <td><code style="color:var(--nurse-light);">${escapeHtml(guest.rollNo)}</code></td>
+            <td>
+              <span class="meal-badge ${isVeg ? 'veg' : 'nonveg'}">
+                ${isVeg ? '🟢 Veg' : '🍗 Non-Veg'}
+              </span>
+            </td>
+            <td style="font-size: 0.8rem; color: var(--text-muted);">${escapeHtml(guest.registeredAt || '-')}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      // Search Filter
+      document.getElementById('search-input').addEventListener('input', (e) => {
+        renderTable(e.target.value);
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        if (guests.length === 0) {
+          alert('No guests registered yet to export!');
+          return;
+        }
+
+        let csvContent = 'data:text/csv;charset=utf-8,';
+        csvContent += 'Serial No,Junior Name,Roll Number,Meal Preference,Registered Time\r\n';
+
+        guests.forEach((g, idx) => {
+          const row = [
+            idx + 1,
+            `"${(g.name || '').replace(/"/g, '""')}"`,
+            `"${(g.rollNo || '').replace(/"/g, '""')}"`,
+            `"${(g.meal || '').replace(/"/g, '""')}"`,
+            `"${(g.registeredAt || '').replace(/"/g, '""')}"`
+          ].join(',');
+          csvContent += row + '\r\n';
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement('a');
+        link.setAttribute('href', encodedUri);
+        link.setAttribute('download', `Nursing_Department_Guest_List_${new Date().toISOString().slice(0,10)}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+
+      // Print Check-in List
+      document.getElementById('btn-print-table').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Clear Data
+      document.getElementById('btn-clear-data').addEventListener('click', () => {
+        if (confirm('Are you sure you want to reset all registered student data? This cannot be undone.')) {
+          localStorage.removeItem(storageKey);
+          loadGuests();
+          updateStats();
+          renderTable();
+        }
+      });
+
+      // Init
+      loadGuests();
+      updateStats();
+      renderTable();
+    })();
+  </script>
+</body>
+</html>

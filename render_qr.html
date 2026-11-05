@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 800px;
+      height: 800px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    #qrcode {
+      background: #ffffff;
+    }
+    canvas {
+      display: block;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div id="qrcode"></div>
+  <script src="assets/qrcode.min.js"></script>
+  <script>
+    // URL for the Freshers website
+    var targetUrl = window.location.hash.slice(1) || "https://giet-nursing-aurora2026.netlify.app";
+    new QRCode(document.getElementById("qrcode"), {
+      text: targetUrl,
+      width: 720,
+      height: 720,
+      colorDark: "#042f2e",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+  </script>
+</body>
+</html>

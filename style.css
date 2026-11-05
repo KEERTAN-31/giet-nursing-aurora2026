@@ -1,0 +1,1017 @@
+/* ==========================================================================
+   AURORA 2026 - SCHOOL OF NURSING GIET UNIVERSITY FRESHERS' PORTAL
+   Theme: Medical Teal, Hospital Cyan & Heartbeat ECG Nursing Aesthetic
+   ========================================================================== */
+
+:root {
+  /* Medical / Nursing Colors */
+  --bg-dark: #04131d;
+  --bg-darker: #020b12;
+  --bg-card: rgba(6, 26, 40, 0.82);
+  --bg-card-hover: rgba(10, 36, 54, 0.92);
+  
+  --nurse-teal: #14b8a6;
+  --nurse-cyan: #06b6d4;
+  --nurse-blue: #0284c7;
+  --nurse-light: #ccfbf1;
+  --nurse-pulse: #f43f5e; /* ECG heartbeat pulse accent */
+  
+  --teal-gradient: linear-gradient(135deg, #14b8a6 0%, #06b6d4 50%, #0284c7 100%);
+  --teal-glow: 0 0 25px rgba(6, 182, 212, 0.45);
+  
+  --gold-accent: #f5c542;
+  --text-primary: #ffffff;
+  --text-muted: #94a3b8;
+  --border-teal: rgba(20, 184, 166, 0.3);
+  --border-active: rgba(6, 182, 212, 0.85);
+  
+  --veg-green: #10b981;
+  --nonveg-red: #f43f5e;
+  
+  --font-heading: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-title: 'Cinzel', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  
+  --radius-lg: 26px;
+  --radius-md: 16px;
+  --radius-sm: 10px;
+  --transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  position: relative;
+  /* Deep Hospital Night Shift & Medical Cyan Gradient */
+  background-image: 
+    radial-gradient(circle at 50% -10%, rgba(6, 182, 212, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 5% 85%, rgba(20, 184, 166, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 95% 90%, rgba(244, 63, 94, 0.08) 0%, transparent 45%),
+    linear-gradient(180deg, #04131d 0%, #020b12 100%);
+  background-attachment: fixed;
+}
+
+/* Background Animated Canvas (Floating Stethoscopes, Crosses, Sparkles) */
+#ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glowing ECG Pulse Line Background Strip */
+.ecg-line-bg {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.18;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,60 L200,60 L220,60 L230,10 L240,110 L250,30 L260,85 L270,60 L350,60 L500,60 L520,60 L530,10 L540,110 L550,30 L560,85 L570,60 L650,60 L800,60 L820,60 L830,10 L840,110 L850,30 L860,85 L870,60 L950,60 L1100,60 L1120,60 L1130,10 L1140,110 L1150,30 L1160,85 L1170,60 L1200,60' fill='none' stroke='%2306b6d4' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 600px 100%;
+  animation: ecgFlow 12s linear infinite;
+}
+
+@keyframes ecgFlow {
+  from { background-position: 0 0; }
+  to { background-position: 600px 0; }
+}
+
+/* Top App Header / Navigation */
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px;
+  background: rgba(4, 19, 29, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.brand-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-crest {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--teal-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 0 16px rgba(6, 182, 212, 0.45);
+  position: relative;
+}
+
+.brand-crest::after {
+  content: "🩺";
+  position: absolute;
+  font-size: 11px;
+  bottom: -3px;
+  right: -3px;
+  background: #04131d;
+  border-radius: 50%;
+  padding: 2px;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--nurse-light);
+  text-transform: uppercase;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.brand-sub::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--nurse-teal);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--nurse-teal);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 30px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  background: rgba(20, 184, 166, 0.12);
+  color: var(--nurse-light);
+  border: 1px solid rgba(20, 184, 166, 0.28);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.nav-pill:hover {
+  background: rgba(6, 182, 212, 0.25);
+  border-color: var(--nurse-cyan);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Main Flow Container */
+.main-wrapper {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 490px;
+  padding: 90px 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Medical Glassmorphic Card */
+.step-card {
+  width: 100%;
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1.5px solid var(--border-teal);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.65),
+    0 0 35px rgba(6, 182, 212, 0.12);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+/* Heartbeat pulse glow line on top of card */
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--teal-gradient);
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.8);
+}
+
+/* Progress Indicator styled like Clinical Monitor */
+.step-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 26px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+  position: relative;
+}
+
+.progress-segment.active {
+  background: var(--teal-gradient);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.7);
+}
+
+/* Steps Transition Engine */
+.page-step {
+  display: none;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.page-step.current {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: stepFadeIn 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   PAGE 1: WELCOME JUNIORS (Clean, Mysterious, Medical Touch)
+   ========================================================================== */
+.step-1-welcome {
+  text-align: center;
+  padding: 10px 0 12px;
+}
+
+/* Nursing Stethoscope & Heartbeat Icon */
+.nursing-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.12);
+  border: 2px solid rgba(6, 182, 212, 0.4);
+  box-shadow: 
+    0 0 30px rgba(6, 182, 212, 0.25),
+    inset 0 0 15px rgba(20, 184, 166, 0.15);
+  margin-bottom: 20px;
+  position: relative;
+  animation: pulseGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 25px rgba(6, 182, 212, 0.25);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.5), 0 0 15px rgba(244, 63, 94, 0.3);
+  }
+}
+
+.hero-medical-icons {
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.pulse-dot-indicator {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  background: var(--nurse-pulse);
+  border-radius: 50%;
+  border: 2px solid #04131d;
+  box-shadow: 0 0 8px var(--nurse-pulse);
+  animation: heartBlink 1.2s infinite;
+}
+
+@keyframes heartBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.nursing-sub-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--nurse-light);
+  background: rgba(20, 184, 166, 0.15);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.page-title {
+  font-family: var(--font-heading);
+  font-size: 2.3rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.text-teal {
+  background: var(--teal-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.welcome-teaser-box {
+  background: rgba(14, 44, 66, 0.45);
+  border: 1px dashed rgba(6, 182, 212, 0.35);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin: 18px 0 32px;
+  position: relative;
+}
+
+.welcome-teaser-text {
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.welcome-teaser-hint {
+  font-size: 0.8rem;
+  color: var(--nurse-light);
+  opacity: 0.8;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   PAGE 2 & 3: FORM QUESTIONS (Clinical Chart Style)
+   ========================================================================== */
+.question-header {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.step-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--nurse-cyan);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.question-title {
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.question-sub {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}
+
+.input-group {
+  margin-bottom: 28px;
+  position: relative;
+}
+
+.input-box {
+  width: 100%;
+  padding: 16px 18px 16px 52px;
+  font-size: 1.05rem;
+  font-family: var(--font-sans);
+  color: #ffffff;
+  background: rgba(4, 19, 31, 0.85);
+  border: 1.5px solid rgba(20, 184, 166, 0.3);
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition);
+}
+
+.input-box:focus {
+  border-color: var(--nurse-cyan);
+  background: rgba(4, 19, 31, 0.98);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+.input-box::placeholder {
+  color: rgba(148, 163, 184, 0.55);
+}
+
+.input-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--nurse-cyan);
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+.input-feedback {
+  font-size: 0.8rem;
+  margin-top: 8px;
+  color: #fb7185;
+  display: none;
+  padding-left: 4px;
+  font-weight: 600;
+}
+
+.input-box.error {
+  border-color: #fb7185;
+  box-shadow: 0 0 15px rgba(251, 113, 133, 0.25);
+}
+
+/* ==========================================================================
+   PAGE 4: FOOD PREFERENCES (Veg vs Non-Veg Nutrition Choices)
+   ========================================================================== */
+.food-options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.food-card {
+  position: relative;
+  border-radius: var(--radius-md);
+  background: rgba(4, 19, 31, 0.75);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 22px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+}
+
+.food-card:hover {
+  transform: translateY(-3px);
+  background: rgba(8, 30, 48, 0.9);
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.food-card.selected-veg {
+  border-color: var(--veg-green);
+  background: rgba(16, 185, 129, 0.12);
+  box-shadow: 0 0 22px rgba(16, 185, 129, 0.35);
+  transform: scale(1.02);
+}
+
+.food-card.selected-nonveg {
+  border-color: var(--nonveg-red);
+  background: rgba(244, 63, 94, 0.12);
+  box-shadow: 0 0 22px rgba(244, 63, 94, 0.35);
+  transform: scale(1.02);
+}
+
+.food-badge-circle {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.food-card:hover .food-badge-circle {
+  transform: scale(1.1);
+}
+
+.diet-dot-symbol {
+  width: 18px;
+  height: 18px;
+  border: 2px solid;
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.diet-dot-symbol.veg {
+  border-color: var(--veg-green);
+}
+.diet-dot-symbol.veg span {
+  width: 8px;
+  height: 8px;
+  background-color: var(--veg-green);
+  border-radius: 50%;
+}
+
+.diet-dot-symbol.nonveg {
+  border-color: var(--nonveg-red);
+}
+.diet-dot-symbol.nonveg span {
+  width: 8px;
+  height: 8px;
+  background-color: var(--nonveg-red);
+  border-radius: 50%;
+}
+
+.food-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.food-desc {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.food-selected-check {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--nurse-cyan);
+  color: #04131d;
+  font-size: 0.8rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.food-card.selected-veg .food-selected-check,
+.food-card.selected-nonveg .food-selected-check {
+  display: flex;
+}
+
+/* ==========================================================================
+   BUTTONS: Medical Nursing Style with Heartbeat Pulse
+   ========================================================================== */
+.btn-group {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+.btn-primary {
+  flex: 1;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: var(--teal-gradient);
+  color: #020b12;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: var(--transition);
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transition: 0.5s;
+}
+
+.btn-primary:hover::after {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(6, 182, 212, 0.55);
+  filter: brightness(1.08);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  padding: 16px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(20, 184, 166, 0.3);
+  background: rgba(20, 184, 166, 0.08);
+  color: var(--nurse-light);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-secondary:hover {
+  background: rgba(20, 184, 166, 0.18);
+  border-color: var(--nurse-cyan);
+}
+
+/* ==========================================================================
+   PAGE 5: FINALE & GRAND FRESHERS POSTER REVEAL
+   ========================================================================== */
+.reveal-container {
+  text-align: center;
+}
+
+.reveal-confetti-badge {
+  font-size: 2.4rem;
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+.reveal-title {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--nurse-light);
+  margin-bottom: 4px;
+}
+
+.reveal-sub {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+/* Personalized Nursing VIP Entry Pass */
+.vip-pass-card {
+  background: linear-gradient(145deg, rgba(8, 30, 48, 0.95) 0%, rgba(4, 16, 26, 0.98) 100%);
+  border: 1.5px solid var(--nurse-cyan);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 22px;
+  text-align: left;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 18px rgba(6, 182, 212, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.vip-pass-card::after {
+  content: "VIP ENTRY";
+  position: absolute;
+  right: -24px;
+  top: 16px;
+  background: var(--teal-gradient);
+  color: #020b12;
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 3px 28px;
+  transform: rotate(45deg);
+  letter-spacing: 1px;
+}
+
+.pass-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed rgba(6, 182, 212, 0.35);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.pass-univ {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  color: var(--nurse-cyan);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.pass-event-tag {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.pass-body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.pass-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.pass-meta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.pass-diet-pill {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pass-diet-pill.veg {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--veg-green);
+  border: 1px solid var(--veg-green);
+}
+
+.pass-diet-pill.nonveg {
+  background: rgba(244, 63, 94, 0.15);
+  color: var(--nonveg-red);
+  border: 1px solid var(--nonveg-red);
+}
+
+/* Poster Preview Box */
+.poster-frame {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 2px solid var(--nurse-cyan);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(6, 182, 212, 0.3);
+  margin-bottom: 22px;
+  cursor: pointer;
+  background: #000;
+}
+
+.poster-img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.poster-frame:hover .poster-img {
+  transform: scale(1.03);
+}
+
+.poster-zoom-hint {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: rgba(4, 19, 31, 0.85);
+  backdrop-filter: blur(8px);
+  color: var(--nurse-light);
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(6, 182, 212, 0.4);
+}
+
+/* Event Details Ribbon on Finale */
+.event-details-ribbon {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.ribbon-item {
+  background: rgba(20, 184, 166, 0.08);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.ribbon-icon {
+  font-size: 1.15rem;
+  color: var(--nurse-cyan);
+  margin-bottom: 3px;
+}
+
+.ribbon-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.ribbon-val {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Finale Action Buttons */
+.finale-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Lightbox Modal for Poster Zoom */
+.lightbox-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.94);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-modal.open {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 12px;
+  border: 2px solid var(--nurse-cyan);
+  box-shadow: 0 0 35px rgba(6, 182, 212, 0.45);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -45px;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: none;
+  font-size: 1.8rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Footer Credits */
+.app-footer {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(148, 163, 184, 0.7);
+  z-index: 10;
+}
+
+.app-footer a {
+  color: var(--nurse-light);
+  text-decoration: none;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .main-wrapper {
+    padding: 80px 14px 25px;
+  }
+  .step-card {
+    padding: 28px 18px;
+  }
+  .page-title {
+    font-size: 1.95rem;
+  }
+  .question-title {
+    font-size: 1.5rem;
+  }
+  .event-details-ribbon {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    text-align: left;
+  }
+  .ribbon-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    text-align: left;
+  }
+}

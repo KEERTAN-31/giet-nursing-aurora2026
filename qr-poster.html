@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator & Printable Wall Posters • School of Nursing</title>
+  <meta name="description" content="Generate and print official QR codes for pasting on GIET University School of Nursing department walls.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Generator Specific Styles */
+    .qr-page-container {
+      max-width: 860px;
+      margin: 80px auto 40px;
+      padding: 0 20px;
+    }
+
+    .config-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-teal);
+      border-radius: var(--radius-lg);
+      padding: 26px 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    }
+
+    .config-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(20, 184, 166, 0.25);
+      padding-bottom: 14px;
+    }
+
+    .config-title {
+      font-family: var(--font-heading);
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--nurse-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .url-input-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .url-input {
+      flex: 1;
+      padding: 14px 18px;
+      background: rgba(4, 19, 31, 0.85);
+      border: 1.5px solid rgba(20, 184, 166, 0.3);
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .url-input:focus {
+      border-color: var(--nurse-cyan);
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.3);
+    }
+
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ===================================================
+       THE A4 PRINTABLE WALL NOTICE (Pasted on Buildings)
+       Nursing Theme with Medical Seal & Clear QR Code
+       =================================================== */
+    .printable-wall-poster {
+      background: #ffffff;
+      color: #04131d;
+      border-radius: 18px;
+      padding: 40px 35px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+      border: 6px solid #0f766e;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .printable-wall-poster::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border: 2px solid #14b8a6;
+      pointer-events: none;
+    }
+
+    .poster-univ-header {
+      border-bottom: 2.5px solid #042f2e;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+    }
+
+    .univ-title {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #042f2e;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+
+    .dept-title {
+      font-family: var(--font-sans);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #0f766e;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .poster-notice-badge {
+      display: inline-block;
+      background: #042f2e;
+      color: #2dd4bf;
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      padding: 6px 22px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .poster-teaser-call {
+      font-family: var(--font-heading);
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #0f766e;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .poster-sub-call {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 24px;
+    }
+
+    /* Centered High-Res QR Code Frame */
+    .qr-hero-box {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: #f0fdfa;
+      border: 3px dashed #0f766e;
+      border-radius: 20px;
+      padding: 22px 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .qr-badge-tap {
+      background: #0f766e;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #qr-canvas-holder {
+      padding: 10px;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      display: inline-block;
+    }
+
+    #qr-canvas-holder canvas {
+      display: block;
+      width: 240px;
+      height: 240px;
+    }
+
+    .qr-scan-guide {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #042f2e;
+      margin-top: 12px;
+    }
+
+    /* 3 Easy Steps */
+    .steps-instruction-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .step-box-item {
+      background: #f0fdfa;
+      border-left: 4px solid #0f766e;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .step-box-num {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #0f766e;
+      text-transform: uppercase;
+    }
+
+    .step-box-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1e293b;
+    }
+
+    /* Footer Banner in Wall Notice */
+    .poster-footer-banner {
+      background: #042f2e;
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .banner-col strong {
+      display: block;
+      color: #2dd4bf;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .banner-col span {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    /* PRINT MEDIA QUERY */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .app-header,
+      .config-card,
+      .app-footer,
+      #ambient-canvas,
+      .ecg-line-bg,
+      .nav-pill {
+        display: none !important;
+      }
+      .qr-page-container {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .printable-wall-poster {
+        border: 4px solid #0f766e !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 30px 25px !important;
+        page-break-inside: avoid;
+      }
+      #qr-canvas-holder canvas {
+        width: 260px !important;
+        height: 260px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Ambient Sparkles -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Glowing ECG Pulse Background -->
+  <div class="ecg-line-bg" aria-hidden="true"></div>
+
+  <!-- Top App Navigation -->
+  <header class="app-header">
+    <a href="index.html" class="brand-badge">
+      <div class="brand-crest">👩‍⚕️</div>
+      <div class="brand-text">
+        <span class="brand-title">School of Nursing</span>
+        <span class="brand-sub">GIET University</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <a href="index.html" class="nav-pill">
+        <span>✨</span> <span>Student Flow</span>
+      </a>
+      <a href="admin.html" class="nav-pill">
+        <span>📊</span> <span>Guest List</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="qr-page-container">
+
+    <!-- Configuration Control Panel -->
+    <section class="config-card">
+      <div class="config-header">
+        <div>
+          <h1 class="config-title"><span>🩺</span> Department Wall QR Generator</h1>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+            Print this notice and paste it on nursing department walls. When students scan the QR code with their mobile phone, it opens the "Welcome Juniors" portal!
+          </p>
+        </div>
+      </div>
+
+      <label style="display: block; font-size: 0.85rem; font-weight: 700; color: var(--nurse-light); margin-bottom: 8px;">
+        Website URL linked to this QR Code:
+      </label>
+      <div class="url-input-row">
+        <input type="url" id="target-website-url" class="url-input" placeholder="e.g. https://giet-nursing.tiiny.site">
+        <button id="btn-update-qr" class="btn-primary" type="button" style="padding: 14px 22px;">
+          <span>Update QR</span>
+        </button>
+      </div>
+
+      <div class="action-row">
+        <button id="btn-print-poster" class="btn-primary" type="button">
+          <span>🖨️ Print Wall Notice (A4 Sheet)</span>
+        </button>
+        <button id="btn-download-qr-png" class="btn-secondary" type="button">
+          <span>⬇️ Download QR Image Only</span>
+        </button>
+        <a id="btn-test-link" href="index.html" target="_blank" class="btn-secondary" style="text-decoration:none;">
+          <span>🔗 Test Link in New Tab</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         THE OFFICIAL A4 PRINTABLE WALL NOTICE (To be pasted on buildings)
+         ================================================================ -->
+    <article class="printable-wall-poster" id="wall-poster-area">
+      <!-- University & Department Crest -->
+      <div class="poster-univ-header">
+        <h2 class="univ-title">GIET UNIVERSITY, GUNUPUR</h2>
+        <div class="dept-title">🩺 School of Nursing 🩺</div>
+      </div>
+
+      <div class="poster-notice-badge">Notice for 1st Year Nursing Students</div>
+
+      <h3 class="poster-teaser-call">
+        Welcome Juniors! ✨
+      </h3>
+      
+      <p class="poster-sub-call">
+        There is something very special waiting for you... Scan below to discover!
+      </p>
+
+      <!-- Giant Centered QR Code Box -->
+      <div class="qr-hero-box">
+        <div class="qr-badge-tap">📷 SCAN WITH PHONE CAMERA</div>
+        <div id="qr-canvas-holder"></div>
+        <div class="qr-scan-guide">Scan to register & reveal your special surprise pass!</div>
+      </div>
+
+      <!-- 3 Steps Instructions for Students -->
+      <div class="steps-instruction-grid">
+        <div class="step-box-item">
+          <div class="step-box-num">Step 1</div>
+          <div class="step-box-text">Open Phone Camera or Google Lens</div>
+        </div>
+        <div class="step-box-item">
+          <div class="step-box-num">Step 2</div>
+          <div class="step-box-text">Point at QR code & tap the link</div>
+        </div>
+        <div class="step-box-item">
+          <div class="step-box-num">Step 3</div>
+          <div class="step-box-text">Enter Name, Roll No. & unlock your invite!</div>
+        </div>
+      </div>
+
+      <!-- Event Details Bar -->
+      <div class="poster-footer-banner">
+        <div class="banner-col">
+          <strong>🎓 Department</strong>
+          <span>School of Nursing</span>
+        </div>
+        <div class="banner-col">
+          <strong>🏥 Organization</strong>
+          <span>GIET University Gunupur</span>
+        </div>
+        <div class="banner-col">
+          <strong>✨ Event</strong>
+          <span>Freshers Special</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>School of Nursing • GIET University, Gunupur (Odisha)</p>
+    </footer>
+
+  </main>
+
+  <!-- QRCode Library -->
+  <script src="assets/qrcode.min.js"></script>
+
+  <script>
+    (function() {
+      const urlInput = document.getElementById('target-website-url');
+      const btnUpdate = document.getElementById('btn-update-qr');
+      const btnPrint = document.getElementById('btn-print-poster');
+      const btnDownload = document.getElementById('btn-download-qr-png');
+      const btnTestLink = document.getElementById('btn-test-link');
+      const qrHolder = document.getElementById('qr-canvas-holder');
+
+      // Auto-detect current page's index.html location
+      let defaultUrl = window.location.href.replace('qr-poster.html', 'index.html');
+      urlInput.value = defaultUrl;
+      btnTestLink.href = defaultUrl;
+
+      function renderQRCode(targetUrl) {
+        qrHolder.innerHTML = '';
+        new QRCode(qrHolder, {
+          text: targetUrl,
+          width: 256,
+          height: 256,
+          colorDark: '#042f2e',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+
+      // Initial QR Generation
+      renderQRCode(defaultUrl);
+
+      // Update on Button Click
+      btnUpdate.addEventListener('click', () => {
+        const url = urlInput.value.trim();
+        if (url) {
+          renderQRCode(url);
+          btnTestLink.href = url;
+        }
+      });
+
+      // Update on Enter key
+      urlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          btnUpdate.click();
+        }
+      });
+
+      // Print Wall Notice
+      btnPrint.addEventListener('click', () => {
+        window.print();
+      });
+
+      // Download QR Code PNG
+      btnDownload.addEventListener('click', () => {
+        const canvas = qrHolder.querySelector('canvas');
+        if (!canvas) return;
+        const link = document.createElement('a');
+        link.download = 'Nursing_Wall_QR_Code.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+
+    })();
+  </script>
+</body>
+</html>

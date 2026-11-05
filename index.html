@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>School of Nursing • GIET University</title>
+  <meta name="description" content="Official Portal for Nursing Students at GIET University Gunupur. A special surprise is waiting for you!">
+  <meta name="theme-color" content="#04131d">
+
+  <!-- Google Fonts Preconnect & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Ambient Nursing Sparkles & Medical Icons Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- Glowing ECG Pulse Wave in the Background -->
+  <div class="ecg-line-bg" aria-hidden="true"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <a href="index.html" class="brand-badge">
+      <div class="brand-crest">👩‍⚕️</div>
+      <div class="brand-text">
+        <span class="brand-title">School of Nursing</span>
+        <span class="brand-sub">GIET University</span>
+      </div>
+    </a>
+    <div class="header-actions">
+      <a href="qr-poster.html" class="nav-pill" title="Printable QR Code for Department Walls">
+        <span>📱</span> <span>Wall QR</span>
+      </a>
+      <a href="admin.html" class="nav-pill" title="Organizer Admin View">
+        <span>📊</span> <span>Guests</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Multi-Step Interactive Container -->
+  <main class="main-wrapper">
+    <div class="step-card">
+
+      <!-- Progress Segments (Clinical Monitor Style) -->
+      <div class="step-progress-bar" aria-label="Progress">
+        <div class="progress-segment active" data-step="1"></div>
+        <div class="progress-segment" data-step="2"></div>
+        <div class="progress-segment" data-step="3"></div>
+        <div class="progress-segment" data-step="4"></div>
+        <div class="progress-segment" data-step="5"></div>
+      </div>
+
+      <!-- ==========================================
+           PAGE 1: WELCOME JUNIORS (Clean & Mysterious)
+           Only "Welcome juniors" & "There is something special for you"
+           No venue, time, or date revealed yet!
+           ========================================== -->
+      <section id="step-1" class="page-step current step-1-welcome">
+        
+        <!-- Glowing Nursing Hero Badge with Stethoscope & ECG Pulse -->
+        <div class="nursing-hero-badge">
+          <span class="hero-medical-icons">🩺</span>
+          <span class="pulse-dot-indicator" title="Pulse Active"></span>
+        </div>
+
+        <div class="nursing-sub-pill">
+          <span>GIET UNIVERSITY • SCHOOL OF NURSING</span>
+        </div>
+
+        <h1 class="page-title">
+          Welcome <span class="text-teal">juniors!</span>
+        </h1>
+
+        <div class="welcome-teaser-box">
+          <p class="welcome-teaser-text">
+            <span>✨</span>
+            <span>There is something special for you...</span>
+            <span>✨</span>
+          </p>
+          <p class="welcome-teaser-hint">
+            Tap below to begin and see what seniors have prepared!
+          </p>
+        </div>
+
+        <button id="btn-start" class="btn-primary" type="button">
+          <span>Start</span>
+          <span style="font-size: 1.25rem;">🩺 ➜</span>
+        </button>
+      </section>
+
+      <!-- ==========================================
+           PAGE 2: NAME INPUT (Screen 2)
+           ========================================== -->
+      <section id="step-2" class="page-step">
+        <div class="question-header">
+          <div class="step-label">Step 1 of 3 • Introduction</div>
+          <h2 class="question-title">What is your name junior? 🎓</h2>
+          <p class="question-sub">Enter your full name so seniors can welcome you properly!</p>
+        </div>
+
+        <div class="input-group">
+          <span class="input-icon">👤</span>
+          <input 
+            type="text" 
+            id="junior-name" 
+            class="input-box" 
+            placeholder="e.g. Priya Sharma" 
+            autocomplete="name" 
+            autofocus
+            maxlength="60"
+          >
+          <div id="error-name" class="input-feedback">⚠️ Please write your name before continuing!</div>
+        </div>
+
+        <div class="btn-group">
+          <button id="btn-continue-name" class="btn-primary" type="button">
+            <span>Continue</span>
+            <span>➜</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 3: ROLL NO INPUT (Screen 3)
+           ========================================== -->
+      <section id="step-3" class="page-step">
+        <div class="question-header">
+          <div class="step-label">Step 2 of 3 • Identification</div>
+          <h2 class="question-title">What is your roll no.? 🔢</h2>
+          <p class="question-sub">Enter your university roll number or student ID</p>
+        </div>
+
+        <div class="input-group">
+          <span class="input-icon">🆔</span>
+          <input 
+            type="text" 
+            id="junior-roll" 
+            class="input-box" 
+            placeholder="e.g. 26NUR042 or GIET/SON/01" 
+            autocomplete="off" 
+            maxlength="30"
+          >
+          <div id="error-roll" class="input-feedback">⚠️ Please enter your roll number!</div>
+        </div>
+
+        <div class="btn-group">
+          <button id="btn-back-roll" class="btn-secondary" type="button">
+            <span>← Back</span>
+          </button>
+          <button id="btn-continue-roll" class="btn-primary" type="button">
+            <span>Continue</span>
+            <span>➜</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 4: VEG & NON-VEG PREFERENCE (Screen 4)
+           ========================================== -->
+      <section id="step-4" class="page-step">
+        <div class="question-header">
+          <div class="step-label">Step 3 of 3 • Meal Preference</div>
+          <h2 class="question-title">What would you like to eat? 🍽️</h2>
+          <p class="question-sub">Choose your food preference for the special feast</p>
+        </div>
+
+        <div class="food-options-grid">
+          <!-- VEG OPTION -->
+          <div id="food-card-veg" class="food-card" role="button" tabindex="0">
+            <div class="food-selected-check">✓</div>
+            <div class="food-badge-circle">🥗</div>
+            <div class="diet-dot-symbol veg"><span></span></div>
+            <div class="food-title">Veg</div>
+            <div class="food-desc">Pure Vegetarian Feast</div>
+          </div>
+
+          <!-- NON-VEG OPTION -->
+          <div id="food-card-nonveg" class="food-card" role="button" tabindex="0">
+            <div class="food-selected-check">✓</div>
+            <div class="food-badge-circle">🍗</div>
+            <div class="diet-dot-symbol nonveg"><span></span></div>
+            <div class="food-title">Non-Veg</div>
+            <div class="food-desc">Savory Chicken & Delicacies</div>
+          </div>
+        </div>
+
+        <div id="error-food" class="input-feedback" style="text-align: center; margin-bottom: 16px;">
+          ⚠️ Please select either Veg or Non-Veg!
+        </div>
+
+        <div class="btn-group">
+          <button id="btn-back-food" class="btn-secondary" type="button">
+            <span>← Back</span>
+          </button>
+          <button id="btn-continue-food" class="btn-primary" type="button" disabled>
+            <span>Continue</span>
+            <span>🎉</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 5: FINALE & FRESHERS POSTER REVEAL (Screen 5)
+           Here the surprise is revealed!
+           ========================================== -->
+      <section id="step-5" class="page-step reveal-container">
+        <div class="reveal-confetti-badge">🎉✨</div>
+        <h2 class="reveal-title">You're Invited!</h2>
+        <p class="reveal-sub">Welcome to the GIET Nursing Family, Junior!</p>
+
+        <!-- Personalized Junior Nursing VIP Pass Card -->
+        <div class="vip-pass-card">
+          <div class="pass-header">
+            <span class="pass-univ">GIET UNIVERSITY • SCHOOL OF NURSING</span>
+            <span class="pass-event-tag">AURORA 2026</span>
+          </div>
+          <div class="pass-body">
+            <div>
+              <div class="pass-name" id="pass-attendee-name">Junior Name</div>
+              <div class="pass-meta">Roll No: <span id="pass-roll-no" style="font-weight: 700; color:#fff;">--</span></div>
+            </div>
+            <div>
+              <span id="pass-meal-badge" class="pass-diet-pill veg">🟢 Veg Meal</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Official Freshers' Party Poster -->
+        <div class="poster-frame" id="poster-frame" title="Click to view full poster">
+          <img src="assets/poster.jpg" alt="School of Nursing GIET University Freshers Party AURORA 2026 Poster" class="poster-img">
+          <div class="poster-zoom-hint">
+            <span>🔍</span> <span>Tap to Zoom</span>
+          </div>
+        </div>
+
+        <!-- Event Key Details Ribbon (Revealed here at the end!) -->
+        <div class="event-details-ribbon">
+          <div class="ribbon-item">
+            <div class="ribbon-icon">📅</div>
+            <div class="ribbon-label">Date</div>
+            <div class="ribbon-val">6/11/2026</div>
+          </div>
+          <div class="ribbon-item">
+            <div class="ribbon-icon">⏰</div>
+            <div class="ribbon-label">Time</div>
+            <div class="ribbon-val">10.00 AM</div>
+          </div>
+          <div class="ribbon-item">
+            <div class="ribbon-icon">📍</div>
+            <div class="ribbon-label">Venue</div>
+            <div class="ribbon-val">Mech Auditorium</div>
+          </div>
+        </div>
+
+        <!-- Finale Action Buttons -->
+        <div class="finale-actions">
+          <button id="btn-download-pass" class="btn-primary" type="button">
+            <span>📥 Download My VIP Pass</span>
+          </button>
+          
+          <button id="btn-share-whatsapp" class="btn-secondary" type="button">
+            <span>💬 Share on WhatsApp</span>
+          </button>
+
+          <a 
+            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Freshers%27+Party+AURORA+2026+-+School+of+Nursing&dates=20261106T043000Z/20261106T113000Z&details=School+of+Nursing+GIET+University+Gunupur+Cordially+Invites+You+to+AURORA+2026!&location=Mechanical+Auditorium%2C+GIET+University+Gunupur" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="btn-secondary" 
+            style="text-decoration:none;"
+          >
+            <span>🗓️ Add to Google Calendar</span>
+          </a>
+
+          <button id="btn-register-another" class="btn-secondary" type="button" style="margin-top: 6px; font-size: 0.85rem; opacity: 0.8;">
+            <span>➕ Register Another Junior</span>
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Organized with ❤️ by Seniors of School of Nursing • GIET University, Gunupur</p>
+      <p style="margin-top: 4px; font-size: 0.7rem; opacity: 0.75;">
+        Let's Welcome the New Faces & Celebrate Together!
+      </p>
+    </footer>
+  </main>
+
+  <!-- Fullscreen Poster Lightbox Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true">
+    <div class="lightbox-content">
+      <button id="lightbox-close" class="lightbox-close" aria-label="Close Poster Zoom">&times;</button>
+      <img src="assets/poster.jpg" alt="AURORA 2026 Poster Full View" class="lightbox-img">
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/qrcode.min.js"></script>
+  <script src="assets/confetti.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
